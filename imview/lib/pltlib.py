@@ -514,10 +514,10 @@ def latlon_ticks(ax, lat_in=5, lon_in=5, in_crs={'init':'epsg:3857'}, fmt='%0.0f
     
     #Prepare tick labels with desired format
     if True:
-        #bottom_tick_labels = [fmt % x +'$^\circ$E' for x in bottom_list]
-        #top_tick_labels = [fmt % x +'$^\circ$E' for x in top_list]
-        #left_tick_labels = [fmt % y +'$^\circ$N' for y in left_list]
-        #right_tick_labels = [fmt % y +'$^\circ$N' for y in right_list]
+        #bottom_tick_labels = [fmt % x + r'$^{\circ}$E' for x in bottom_list]
+        #top_tick_labels = [fmt % x + r'$^{\circ}$E' for x in top_list]
+        #left_tick_labels = [fmt % y + r'$^{\circ}$N' for y in left_list]
+        #right_tick_labels = [fmt % y + r'$^{\circ}$N' for y in right_list]
         bottom_tick_labels = [fmt % x for x in bottom_list]
         top_tick_labels = [fmt % x for x in top_list]
         left_tick_labels = [fmt % y for y in left_list]
@@ -560,7 +560,7 @@ def latlon_ticks(ax, lat_in=5, lon_in=5, in_crs={'init':'epsg:3857'}, fmt='%0.0f
         #print(top_tick_labels)
         #topax.set_xticklabels(top_tick_labels, minor=False)
         #topax.xaxis.set_major_formatter(FormatStrFormatter(fmt))
-        #topax.xaxis.set_major_formatter(FormatStrFormatter(fmt +'$^\circ$E'))
+        #topax.xaxis.set_major_formatter(FormatStrFormatter(fmt + r'$^{\circ}$E'))
         #ax.set_xlim(*xlim)
         #ax.set_ylim(*ylim)
     
@@ -586,8 +586,8 @@ def latlon_ticks(ax, lat_in=5, lon_in=5, in_crs={'init':'epsg:3857'}, fmt='%0.0f
         
     #ax.set_xlabel('Longitude')
     #ax.set_ylabel('Latitude')
-    ax.set_xlabel('Longitude'+'$^\circ$E')
-    ax.set_ylabel('Latitude'+'$^\circ$N')
+    ax.set_xlabel('Longitude'+ r'$^\circ$E')
+    ax.set_ylabel('Latitude'+ r'$^\circ$N')
 
     if grid:
         ax.grid(ls=':')
