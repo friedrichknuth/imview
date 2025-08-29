@@ -24,6 +24,9 @@ from pygeotools.lib import iolib, malib, geolib, timelib, warplib
 
 from imview.lib import pltlib
 
+import PIL.Image
+PIL.Image.MAX_IMAGE_PIXELS = 200000000
+
 #Global variable holding array under cursor
 #Note: A lot of this functionality is now possible with matplotlib widget or more modern packages
 gbma = None
@@ -146,7 +149,7 @@ def bma_fig(fig, bma, cmap='cpt_rainbow', clim=None, clim_perc=(2,98), bg=None, 
     
     #ax.set_title("Band %i" % subplt, fontsize=10)
     if title is not None:
-        ax.set_title(title)
+        ax.set_title(title, fontsize=8)
 
     #If a background image is provided, plot it first
     if bg is not None:
@@ -370,7 +373,7 @@ def main():
                 print("Unable to extract timestamp")
                 args['title'] = None
         elif title == 'fn':
-            args['title'] = fn
+            args['title'] = os.path.split(fn)[-1]
         
         #Note: this won't work if img1 has 1 band and img2 has 3 bands
         #Hack for now
@@ -387,7 +390,11 @@ def main():
             #Should automatically search for shaded relief with same base fn
             #bg_fn = os.path.splitext(fn)[0]+'_hs_az315.tif'
             #Clip/warp background dataset to match overlay dataset 
-            src_ds, bg_ds = warplib.memwarp_multi_fn([fn, args['overlay']], extent=extent, res='max')
+            bg_fn = args['overlay']
+            if args['overlay'] == 'hs':
+                if os.path.exists(os.path.splitext(fn)[0]+'_hs.tif'):
+                    bg_fn = os.path.splitext(fn)[0]+'_hs.tif'
+            src_ds, bg_ds = warplib.memwarp_multi_fn([fn, bg_fn], extent=extent, res='min')
             #Want to load up the unique bg array for each input
             args['bg'] = get_bma(bg_ds, 1, args['full'])
         else:
@@ -444,10 +451,11 @@ def main():
         #This doesn't work when alpha band is present
         elif (nbands == 3) and (dt == 'Byte'):
             #For some reason, tifs are vertically flipped
-            if (os.path.splitext(fn)[1] == '.tif'):
-                args['imshow_kwargs']['origin'] = 'lower'
+            #if (os.path.splitext(fn)[1] == '.tif'):
+            #    args['imshow_kwargs']['origin'] = 'lower'
             #Use gdal dataset here instead of imread(fn)?
             imgplot = plt.imshow(plt.imread(fn), **args['imshow_kwargs'])
+            bma = get_bma(src_ds, 1, args['full'])   
             pltlib.hide_ticks(imgplot.axes)
         #Handle the 3-band disparity map case here
         #elif ((dt == 'Float32') or (dt == 'Int32')):
