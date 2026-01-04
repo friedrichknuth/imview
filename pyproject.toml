@@ -25,11 +25,10 @@ dependencies = [
 Homepage = "https://github.com/dshean/imview"
 
 [project.scripts]
-imviewer = "imview.imviewer:main"
-iv = "imview.iv:main"
-stack_view = "imview.stack_view:main"
-review_img = "imview.review_img:main"
-color_hs = "imview.color_hs:main"
+imviewer.py = "imview.imviewer:main"
+stack_view.py = "imview.stack_view:main"
+review_img.py = "imview.review_img:main"
+color_hs.py = "imview.color_hs:main"
 
 [tool.setuptools]
 packages = ["imview", "imview.lib"]
