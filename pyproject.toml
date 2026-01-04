@@ -31,7 +31,7 @@ review_img = "imview.review_img:main"
 color_hs = "imview.color_hs:main"
 
 [tool.setuptools]
-packages = ["imview", "imview.lib"]
+packages = {find = {}}
 
 [tool.setuptools.package-data]
 "imview.lib" = ["*.cpt"]
